@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -14,7 +15,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.cars.index', ['cars' => Car::orderByDesc('id')->paginate(9)]);
     }
 
     /**
@@ -22,7 +23,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.cars.create');
     }
 
     /**
@@ -30,7 +31,16 @@ class CarController extends Controller
      */
     public function store(StoreCarRequest $request)
     {
-        //
+
+        $val_data = $request->validated();
+
+        if ($request->has('image')) {
+            $file_path = Storage::put('car_images', $request->image);
+            $val_data['image'] = $file_path;
+        }
+
+        Car::create($val_data);
+        return to_route('admin.cars.index')->with('message', 'Car Created Successfully! 👍');
     }
 
     /**
@@ -38,7 +48,7 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        //
+        return view('admin.cars.show', ['car' => $car]);
     }
 
     /**
@@ -46,7 +56,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        return view('admin.cars.edit', ['car' => $car]);
     }
 
     /**
@@ -54,7 +64,18 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, Car $car)
     {
-        //
+
+
+        $val_data = $request->validated();
+
+        if ($request->has('image') && $car->image) {
+            Storage::delete($car->image);
+            $file_path = Storage::put('car_images', $request->image);
+            $val_data['image'] = $file_path;
+        }
+
+        $car->update($val_data);
+        return to_route('admin.cars.index')->with('message', 'Car Edited Successfully! 👍');
     }
 
     /**

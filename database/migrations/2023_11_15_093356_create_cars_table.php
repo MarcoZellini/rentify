@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('brand')->nullable();
-            $table->string('model')->nullable();
+            $table->string('brand');
+            $table->string('model');
             $table->string('image')->nullable();
             $table->decimal('price', 5, 2);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->string('transmission')->nullable();
             $table->string('fuel_type')->nullable();
             $table->tinyInteger('seats', unsigned: true)->nullable();
