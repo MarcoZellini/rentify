@@ -97,9 +97,12 @@
                                 href="{{ route('admin.dashboard') }}">Dashboard</a>
                             <a class="nav-link nav-pills {{ Route::currentRouteName() === 'admin.cars.index' ? 'active' : '' }}"
                                 href="{{ route('admin.cars.index') }}">Cars</a>
-                            <a class="nav-link" href="#">Link</a>
-                            <a class="nav-link" href="#">Link</a>
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            <a class="nav-link nav-pills {{ Route::currentRouteName() === '' ? 'active' : '' }}"
+                                href="#">Two</a>
+                            <a class="nav-link nav-pills {{ Route::currentRouteName() === '' ? 'active' : '' }}"
+                                href="#">Three</a>
+                            <a class="nav-link nav-pills {{ Route::currentRouteName() === '' ? 'active' : '' }}"
+                                href="#">Four</a>
                         </nav>
                     </div>
                 </div>

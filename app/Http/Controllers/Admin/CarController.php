@@ -68,8 +68,12 @@ class CarController extends Controller
 
         $val_data = $request->validated();
 
-        if ($request->has('image') && $car->image) {
-            Storage::delete($car->image);
+        if ($request->has('image')) {
+
+            if ($car->image) {
+                Storage::delete($car->image);
+            }
+
             $file_path = Storage::put('car_images', $request->image);
             $val_data['image'] = $file_path;
         }
@@ -83,6 +87,12 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+
+        if ($car->image) {
+            Storage::delete($car->image);
+        }
+        $car->delete();
+
+        return to_route('admin.cars.index')->with('message', 'Car Deleted Successfully! 👍');
     }
 }
